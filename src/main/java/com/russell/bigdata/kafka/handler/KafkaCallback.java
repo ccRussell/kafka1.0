@@ -1,4 +1,4 @@
-package com.russell.bigdata.kafka.product;
+package com.russell.bigdata.kafka.handler;
 
 /**
  * @author liumenghao

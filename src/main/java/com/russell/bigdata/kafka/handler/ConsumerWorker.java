@@ -1,4 +1,4 @@
-package com.russell.bigdata.kafka.product;
+package com.russell.bigdata.kafka.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

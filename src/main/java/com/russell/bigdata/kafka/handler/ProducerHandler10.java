@@ -1,5 +1,6 @@
-package com.russell.bigdata.kafka.product;
+package com.russell.bigdata.kafka.handler;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -7,6 +8,8 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 
 /**
+ * kafka 1.0版本的生产者 handler
+ *
  * @author liumenghao
  * @Date 2019/1/13
  */
@@ -47,6 +50,18 @@ public class ProducerHandler10 {
     }
 
     /**
+     * 发送消息到kafka，可以使用回调函数对发送结果进行处理
+     *
+     * @param topic
+     * @param value
+     * @param callback
+     */
+    public void sendMessage(String topic, String value, Callback callback) {
+        ProducerRecord data = new ProducerRecord(topic, value);
+        kafkaProducer.send(data, callback);
+    }
+
+    /**
      * 关闭kafka,释放资源
      */
     public void close() {
@@ -64,10 +79,8 @@ public class ProducerHandler10 {
         Properties props = new Properties();
         // broker 列表
         props.put("bootstrap.servers", brokerList);
-
         // 设置对key序列化的类
         props.put("key.serializer", serializerClass);
-
         // 设置对value序列化的类
         props.put("value.serializer", serializerClass);
 
@@ -87,7 +100,4 @@ public class ProducerHandler10 {
         return props;
     }
 
-    public static void main(String[] args) {
-        System.out.println(StringSerializer.class.getName());
-    }
 }

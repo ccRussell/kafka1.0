@@ -1,7 +1,7 @@
 package com.russell.bigdata.kafka.example;
 
 import com.russell.bigdata.kafka.common.KafkaTopicType;
-import com.russell.bigdata.kafka.product.ConsumerHandler10;
+import com.russell.bigdata.kafka.handler.ConsumerHandler10;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,7 +15,7 @@ import static com.russell.bigdata.kafka.common.Constants.KAFKA_BROKER;
  */
 @Slf4j
 @Data
-public class KafkaConsumerTest {
+public class ConsumerTest {
 
     public static void main(String[] args) throws Exception {
         String groupId = "kafka_example";
