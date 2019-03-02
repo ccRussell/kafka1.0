@@ -1,6 +1,5 @@
-package com.russell.bigdata.kafka.example;
+package com.russell.bigdata.kafka.product;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -11,7 +10,7 @@ import java.util.Properties;
  * @author liumenghao
  * @Date 2019/1/13
  */
-public class KafkaMessageProducer {
+public class ProducerHandler10 {
 
     /**
      * 序列化方法
@@ -29,7 +28,7 @@ public class KafkaMessageProducer {
      *
      * @param brokerList kafka节点信息
      */
-    public KafkaMessageProducer(String brokerList) {
+    public ProducerHandler10(String brokerList) {
 
         Properties producerConfig = createProducerConfig(brokerList, DEFAULT_SERIALIZER_CLASS);
 

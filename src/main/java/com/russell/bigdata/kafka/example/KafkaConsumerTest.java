@@ -1,14 +1,9 @@
 package com.russell.bigdata.kafka.example;
 
+import com.russell.bigdata.kafka.common.KafkaTopicType;
+import com.russell.bigdata.kafka.product.ConsumerHandler10;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.serialization.StringDeserializer;
-
-import java.util.Arrays;
-import java.util.Properties;
 
 import static com.russell.bigdata.kafka.common.Constants.KAFKA_BROKER;
 
@@ -22,28 +17,26 @@ import static com.russell.bigdata.kafka.common.Constants.KAFKA_BROKER;
 @Data
 public class KafkaConsumerTest {
 
-    private static String topic = "kafka_streaming_topic";
+    public static void main(String[] args) throws Exception {
+        String groupId = "kafka_example";
+        init(groupId);
+    }
 
-    public static void main(String[] args) {
+    public static void init(String groupId) throws Exception {
+        String topic0 = KafkaTopicType.THREE_PARTITION_TOPIC.getName();
+        ConsumerHandler10 consumer = new ConsumerHandler10(KAFKA_BROKER, groupId, topic0,
+                (topic, message) -> doProcessMessage(topic, message));
+        consumer.execute(3);
+    }
 
-        Properties props = new Properties();
-        props.put("bootstrap.servers", KAFKA_BROKER);
-        props.put("group.id", "kafka_example");
-        props.put("client.id", "kafka_example");
-        props.put("fetch.max.bytes", 1024);
-
-        // 自动提交偏移量
-        props.put("enable.auto.commit", true);
-        props.put("key.deserializer", StringDeserializer.class.getName());
-        props.put("value.deserializer", StringDeserializer.class.getName());
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-
-        consumer.subscribe(Arrays.asList(topic));
-
-        while (true) {
-            ConsumerRecords<String, String> records = consumer.poll(100);
-            for (ConsumerRecord<String, String> record : records) {
-                log.info("recodeOffset = " + record.offset() + " recodeValue = " + record.value());
+    public static void doProcessMessage(String topic, String message) {
+        switch (topic) {
+            case "kafka_partitions_topic": {
+                log.info(message);
+                break;
+            }
+            default: {
+                log.info("topic 无效");
             }
         }
     }

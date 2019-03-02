@@ -1,5 +1,7 @@
 package com.russell.bigdata.kafka.example;
 
+import com.russell.bigdata.kafka.common.KafkaTopicType;
+import com.russell.bigdata.kafka.product.ProducerHandler10;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,15 +17,13 @@ import static com.russell.bigdata.kafka.common.Constants.KAFKA_BROKER;
 @Data
 public class KafkaProducerTest {
 
-    private static final String TOPIC = "kafka_streaming_topic";
-
     private static int count;
 
     public static void main(String[] args) throws Exception {
-        KafkaMessageProducer producer = new KafkaMessageProducer(KAFKA_BROKER);
+        ProducerHandler10 producer = new ProducerHandler10(KAFKA_BROKER);
         while (true) {
             Thread.sleep(1000);
-            producer.sendMessage(TOPIC, "测试生产数据" + " " + count);
+            producer.sendMessage(KafkaTopicType.THREE_PARTITION_TOPIC.getName(), "测试生产数据" + " " + count);
             log.info("测试生产数据" + " " + count);
             count++;
         }

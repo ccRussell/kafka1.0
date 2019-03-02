@@ -7,4 +7,5 @@ package com.russell.bigdata.kafka.common;
 public interface Constants {
 
     String KAFKA_BROKER = "127.0.0.1:9092";
+
 }
