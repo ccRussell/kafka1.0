@@ -22,10 +22,11 @@ public class ConsumerTest {
         init(groupId);
     }
 
-    public static void init(String groupId) throws Exception {
+    public static void init(String groupId) {
         String topic0 = KafkaTopicType.THREE_PARTITION_TOPIC.getName();
         ConsumerHandler10 consumer = new ConsumerHandler10(KAFKA_BROKER, groupId, topic0,
                 (topic, message) -> doProcessMessage(topic, message));
+        // 测试使用的topic有三个分区
         consumer.execute(3);
     }
 

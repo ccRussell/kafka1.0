@@ -12,11 +12,11 @@ public class ConsumerWorker implements Runnable{
 
     private ConsumerRecord<String, String> consumerRecord;
 
-    private KafkaCallback callback;
+    private ConsumerCallback callback;
 
-    public ConsumerWorker(ConsumerRecord consumerRecord, KafkaCallback kafkaCallback){
+    public ConsumerWorker(ConsumerRecord consumerRecord, ConsumerCallback consumerCallback){
         this.consumerRecord = consumerRecord;
-        this.callback = kafkaCallback;
+        this.callback = consumerCallback;
     }
 
 

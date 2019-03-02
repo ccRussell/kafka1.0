@@ -4,10 +4,10 @@ package com.russell.bigdata.kafka.handler;
  * @author liumenghao
  * @Date 2019/2/28
  */
-public interface KafkaCallback {
+public interface ConsumerCallback {
 
     /**
-     * kafka消费数据后的回调函数 ==> 处理逻辑
+     * kafka消费数据后的回调函数 ==> 消息处理逻辑
      *
      * @param topic
      * @param message

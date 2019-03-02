@@ -24,27 +24,43 @@ public class ConsumerHandler10 {
 
     private ExecutorService executors;
 
-    private KafkaCallback kafkaCallback;
+    private ConsumerCallback consumerCallback;
 
-    public ConsumerHandler10(String brokerList, String groupId, String topic, KafkaCallback callback) {
+    /**
+     * 构造函数
+     *
+     * @param brokerList
+     * @param groupId
+     * @param topic
+     * @param callback
+     */
+    public ConsumerHandler10(String brokerList, String groupId, String topic, ConsumerCallback callback) {
         Properties props = createConsumerConfig(brokerList, groupId);
-        this.kafkaCallback = callback;
+        this.consumerCallback = callback;
         consumer = new KafkaConsumer<>(props);
         consumer.subscribe(Arrays.asList(topic));
     }
 
+    /**
+     * 执行方法，开始消费
+     *
+     * @param workerNum 启动的线程数，一般对应topic的partition数量
+     */
     public void execute(int workerNum) {
         executors = new ThreadPoolExecutor(workerNum, workerNum, 0L, TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<>(1000), new ThreadPoolExecutor.CallerRunsPolicy());
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(200);
             for (final ConsumerRecord<String, String> record : records) {
-                executors.submit(new ConsumerWorker(record, kafkaCallback));
+                executors.submit(new ConsumerWorker(record, consumerCallback));
             }
 
         }
     }
 
+    /**
+     * 用来关闭消费者，释放资源
+     */
     public void shutdown() {
         if (consumer != null) {
             consumer.close();
@@ -62,6 +78,13 @@ public class ConsumerHandler10 {
         }
     }
 
+    /**
+     * consumer的配置类
+     *
+     * @param kafkaBroker
+     * @param groupId
+     * @return
+     */
     private Properties createConsumerConfig(String kafkaBroker, String groupId) {
         Properties props = new Properties();
         props.put("bootstrap.servers", kafkaBroker);
